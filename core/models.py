@@ -4,6 +4,9 @@ import os
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
+
+SEX_CHOICES = (("F", "Feminino"), ("M", "Masculino"))
+
 @deconstructible
 class MaxSizeValidator:
     def __init__(self, max_size):
@@ -30,21 +33,40 @@ class Base(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
-class Experimento(Base):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
+    class Meta:
+        abstract = True
+
+class Usuario(Base):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    sex = models.CharField(choices=SEX_CHOICES)
 
     def __str__(self):
-        return self.nome
+        return self.name
+
+
+class Experimento(Base):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 class Audio(Base):
-    arquivo = models.FileField(upload_to='audio/%Y/%m/%d', validators=[MaxSizeValidator(10*1024*1024), ExtensionValidator(['wav'])])
-    avaliacao = models.IntegerField(default=0)
-    criterio = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='experimento_audios')
+    archive = models.FileField(upload_to='audio/%Y/%m/%d', validators=[MaxSizeValidator(10*1024*1024), ExtensionValidator(['wav'])])
+    category = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='experimento_audios')
     def generate_filename(self, filename):
         ext = filename.split('.')[-1]
         filename = f"{uuid.uuid4()}.{ext}"
         return os.path.join('audio', filename)
 
     def __str__(self):
-        return os.path.basename(self.arquivo.name)
+        return os.path.basename(self.archive.name)
+
+
+class Evaluation(Base):
+    audio = models.ForeignKey(Audio, on_delete=models.CASCADE, related_name='audio_evaluations')
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='usuario_evaluations')
+    score = models.IntegerField()
+    def __str__(self):
+        return   f"{self.usuario.name} - {self.usuario.age} - {self.usuario.sex} ----> {self.score}"
