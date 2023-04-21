@@ -2,40 +2,30 @@
 {% block content %}
 
 <div class="container">
-    <h1>{{ experimento.nome }}</h1>
-    <p>{{ experimento.descricao }}</p>
-</div>
-
-
-<div class="container">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for audio in audios %}
         <audio controls>
-            <source src="{{ audio.arquivo.url }}" type="audio/wav">
+            <source src="{{ audio.archive.url }}" type="audio/wav">
             Your browser does not support the audio element.
         </audio>
         <div>
             <label for="id_avaliacao_{{ audio.id }}">Avaliação:</label>
-            <input type="range" min="0" max="100" value="0" class="slider" id="id_avaliacao_{{ audio.id }}">
+            <input type="range" min="0" max="100" value="0" class="slider" id="id_avaliacao_{{ audio.id }}" name="id_avaliacao_{{ audio.id }}">
             <span id="valor_avaliacao_{{ audio.id }}">0</span>
         </div>
         {% endfor %}
         <button type="submit">Enviar</button>
     </form>
 </div>
-
-
 {% endblock %}
 
 {% block script %}
-<script>
-    document.querySelectorAll('input[type="range"]').forEach(input => {
-        const id = input.id.replace('id_', 'valor_')
-        const valor = document.getElementById(id)
-        input.addEventListener('input', () => {
-            valor.textContent = input.value
-        })
-    })
-</script>
+
 {% endblock %}
+
+
+
+
+
+
