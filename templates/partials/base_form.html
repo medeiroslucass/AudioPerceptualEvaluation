@@ -1,0 +1,85 @@
+{% extends "partials/base.html" %}
+{% block content %}
+<div class="container my-5 text-center">
+    <h1 class="thin-font ">{{experimento.name}} </h1>
+    <p>{{experimento.description}}</p>
+</div>
+
+{% include 'experimento1.html' %}
+{% include 'experimento2.html' %}
+
+<!-- STEP 2-->
+
+<div class="mt-5 footer">
+    <footer class="text-center footer">
+        <div class="container">
+            <button type="submit" class="btn btn-danger">Enviar</button>
+        </div>
+    </footer>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        // set up event handlers for next/prev buttons
+        $(".next-step").click(function () {
+            var currentStep = $(this).closest(".step");
+            var nextStep = currentStep.next(".step");
+
+            // validate current step before moving to next step
+            if (validateStep(currentStep)) {
+                currentStep.hide();
+                nextStep.show();
+            }
+        });
+
+        $(".prev-step").click(function () {
+            var currentStep = $(this).closest(".step");
+            var prevStep = currentStep.prev(".step");
+
+            currentStep.hide();
+            prevStep.show();
+        });
+
+        // set up form validation
+        function validateStep(step) {
+            // perform validation here, return true if valid, false if not
+            return true;
+        }
+    });
+
+
+    // SUBMIT FORM
+    $(function () {
+        // Quando o formulário de envio for enviado
+        $("#my-form").on("submit", function (event) {
+            // Impedir o envio do formulário
+            event.preventDefault();
+
+            // Obter os dados do formulário
+            var data = $(this).serialize();
+
+            // Adicionar o token CSRF aos dados
+            data += "&csrfmiddlewaretoken=" + $("[name=csrfmiddlewaretoken]").val();
+
+            // Enviar uma requisição AJAX para enviar os dados
+            $.ajax({
+                type: "POST",
+                url: "{% url 'my-view' %}",
+                data: data,
+                success: function (response) {
+                    // Sucesso! Redirecionar para uma página de confirmação ou algo assim
+                    console.log('deu certo!')
+                },
+                error: function () {
+                    // Ocorreu um erro
+                    alert("Ocorreu um erro.");
+                }
+            });
+        });
+    });
+
+</script>
+{% endblock %}

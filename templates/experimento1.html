@@ -1,30 +1,31 @@
-{% extends "base.html" %}
-{% block content %}
-
-<div class="container">
-    <form method="POST" enctype="multipart/form-data">
+{% load static %}
+<div class="step step-1 container">
+    <h2>Step 1</h2>
+    <form id="step-1-form" class="form-step" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for audio in audios %}
-        <audio controls>
-            <source src="{{ audio.archive.url }}" type="audio/wav">
-            Your browser does not support the audio element.
-        </audio>
-        <div>
-            <label for="id_avaliacao_{{ audio.id }}">Avaliação:</label>
-            <input type="range" min="0" max="100" value="0" class="slider" id="id_avaliacao_{{ audio.id }}" name="id_avaliacao_{{ audio.id }}">
-            <span id="valor_avaliacao_{{ audio.id }}">0</span>
+        <div class="row">
+            {% for audio in audios %}
+            <audio class="col" controls onmouseover="showTimeline()" onmouseout="hideTimeline()">
+                <source src="{{ audio.archive.url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="col">
+                <label for="id_avaliacao_{{ audio.id }}">Avaliação:</label>
+                <input type="range" min="0" max="100" value="0" class="slider" id="id_avaliacao_{{ audio.id }}"
+                       name="id_avaliacao_{{ audio.id }}">
+                <span id="valor_avaliacao_{{ audio.id }}">0</span>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        <button type="submit">Enviar</button>
+        <div class="mt-5 container">
+            <button type="button" class="next-step btn btn-primary">Next</button>
+        </div>
+        <div class="mt-5 footer">
+
+        </div>
+
     </form>
 </div>
-{% endblock %}
-
-{% block script %}
-
-{% endblock %}
-
-
 
 
 

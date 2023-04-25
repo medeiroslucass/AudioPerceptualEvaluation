@@ -1,0 +1,23 @@
+{% load static %}
+<div class="step step-2 container" style="display: none;">
+    <h2>Step 2</h2>
+    <form id="step-2-form" class="form-step" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <label for="nome">Nome:</label>
+                <input type="text" class="slider" id="nome"
+                       name="nome">
+            </div>
+        </div>
+        <div class="mt-5 container">
+            <button type="button" class="prev-step btn btn-default">Previous</button>
+            <button type="button" class="next-step btn btn-primary">Next</button>
+        </div>
+        <footer class="text-center footer">
+            <div class="container">
+                <button type="submit" class="btn btn-danger">Enviar</button>
+            </div>
+        </footer>
+    </form>
+</div>
