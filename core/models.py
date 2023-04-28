@@ -52,16 +52,22 @@ class Experimento(Base):
     def __str__(self):
         return self.name
 
+
+class Category(Base):
+    name_category = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name_category
 class Row(Base):
-    row = models.CharField(max_length=3)
+    row = models.CharField(max_length=10)
 
     def __str__(self):
         return self.row
 
 class Audio(Base):
     archive = models.FileField(upload_to='audio/%Y/%m/%d', validators=[MaxSizeValidator(10*1024*1024), ExtensionValidator(['wav'])])
-    category = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='experimento_audios')
-    row = models.ForeignKey(Row, on_delete=models.DO_NOTHING, related_name='row_audios')
+    form = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='experimento_audios')
+    row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name='row_audios')
     def generate_filename(self, filename):
         ext = filename.split('.')[-1]
         filename = f"{uuid.uuid4()}.{ext}"
@@ -69,10 +75,10 @@ class Audio(Base):
 
     def clean(self):
         super().clean()
-        if self.category and self.row:
-            audios_count = Audio.objects.filter(category=self.category, row=self.row).count()
+        if self.form and self.row:
+            audios_count = Audio.objects.filter(form=self.form, row=self.row).count()
             if audios_count >= 3:
-                raise ValidationError('Não é possível adicionar mais de 3 audios nesta categoria e linha.')
+                raise ValidationError('Não é possível adicionar mais de 3 audios neste form e linha.')
 
     def __str__(self):
         return os.path.basename(self.archive.name)

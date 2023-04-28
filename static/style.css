@@ -60,3 +60,9 @@ header, .navbar {
     padding: 1rem .8rem;
 
 }
+
+
+/*SELECT INPUT*/
+.form-select {
+    border-radius: 20px;
+}

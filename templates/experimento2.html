@@ -1,23 +1,56 @@
-{% load static %}
-<div class="step step-2 container" style="display: none;">
-    <h2>Step 2</h2>
-    <form id="step-2-form" class="form-step" method="post">
+{% extends "partials/base.html" %}
+{% block content %}
+<div class="container mx-auto">
+    <div class="container my-5 text-center">
+        <h1 class="thin-font ">{{experimento.name}} </h1>
+        <p>{{experimento.description}}</p>
+    </div>
+    <form class="mx-auto text-center" action="{% url 'experimento2' %}" method="POST" style="width: 50%;">
         {% csrf_token %}
-        <div class="row">
+        <!-- Seus elementos de formulário aqui -->
+        {% for audio in audios %}
+        <div class="row mb-5">
+            <audio class="col" controls>
+                <source src="{{ audio.archive.url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+
+
             <div class="col">
-                <label for="nome">Nome:</label>
-                <input type="text" class="slider" id="nome"
-                       name="nome">
+                <select id="id_audio_category-select-{{ audio.id }}" class="form-select" name="category">
+                    <option value="">Selecione uma categoria</option>
+                </select>
             </div>
         </div>
+        <hr>
+        {% endfor %}
         <div class="mt-5 container">
-            <button type="button" class="prev-step btn btn-default">Previous</button>
-            <button type="button" class="next-step btn btn-primary">Next</button>
+            <button type="button" class="btn btn-danger" onclick="window.history.back()">Anterior</button>
+            <button type="submit" class="btn btn-primary">Proximo</button>
         </div>
-        <footer class="text-center footer">
-            <div class="container">
-                <button type="submit" class="btn btn-danger">Enviar</button>
-            </div>
-        </footer>
     </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $('select[name="category"]').each(function(index, select) {
+    $.ajax({
+        url: "{% url 'get_categories' %}",
+        dataType: 'json',
+        success: function(data) {
+            // limpa o select e adiciona as categorias retornadas
+            var options = '<option value="">Selecione uma categoria</option>';
+            $.each(data.categories, function(i, item) {
+                options += '<option value="' + item.id + '">' + item.name_category + '</option>';
+            });
+            $(select).html(options);
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao obter as categorias:', error);
+        }
+    });
+});
+</script>
+
+{% endblock %}
