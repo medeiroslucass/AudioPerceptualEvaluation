@@ -8,6 +8,7 @@
     <form class="mx-auto text-center" action="{% url 'experimento2' %}" method="POST" style="width: 50%;">
         {% csrf_token %}
         <!-- Seus elementos de formulário aqui -->
+        {% for audios in grouped_audios %}
         {% for audio in audios %}
         <div class="row mb-5">
             <audio class="col" controls>
@@ -23,6 +24,7 @@
             </div>
         </div>
         <hr>
+        {% endfor %}
         {% endfor %}
         <div class="mt-5 container">
             <button type="button" class="btn btn-danger" onclick="window.history.back()">Anterior</button>

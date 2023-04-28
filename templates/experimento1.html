@@ -9,6 +9,7 @@
           enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
+            {% for audios in grouped_audios %}
             {% for audio in audios %}
             <div class="col-3 mb-3">
                 <audio controls>
@@ -22,6 +23,7 @@
                        name="id_avaliacao_{{ audio.id }}">
                 <span id="valor_avaliacao_{{ audio.id }}"></span>
             </div>
+            {% endfor %}
             {% endfor %}
         </div>
         <div class="mt-5 container text-center">

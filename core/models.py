@@ -77,7 +77,9 @@ class Audio(Base):
         super().clean()
         if self.form and self.row:
             audios_count = Audio.objects.filter(form=self.form, row=self.row).count()
-            if audios_count >= 3:
+            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+            print(audios_count)
+            if audios_count > 3:
                 raise ValidationError('Não é possível adicionar mais de 3 audios neste form e linha.')
 
     def __str__(self):
