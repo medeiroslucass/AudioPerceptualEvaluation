@@ -77,8 +77,6 @@ class Audio(Base):
         super().clean()
         if self.form and self.row:
             audios_count = Audio.objects.filter(form=self.form, row=self.row).count()
-            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-            print(audios_count)
             if audios_count > 3:
                 raise ValidationError('Não é possível adicionar mais de 3 audios neste form e linha.')
 
@@ -88,7 +86,8 @@ class Audio(Base):
 
 class Evaluation(Base):
     audio = models.ForeignKey(Audio, on_delete=models.CASCADE, related_name='audio_evaluations')
+    form = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='form_evaluations')
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='usuario_evaluations')
-    score = models.IntegerField()
+    score = models.CharField(max_length=100)
     def __str__(self):
         return   f"{self.usuario.name} - {self.usuario.age} - {self.usuario.sex} ----> {self.score}"
