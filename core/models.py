@@ -68,6 +68,7 @@ class Audio(Base):
     archive = models.FileField(upload_to='audio/%Y/%m/%d', validators=[MaxSizeValidator(10*1024*1024), ExtensionValidator(['wav'])])
     form = models.ForeignKey(Experimento, on_delete=models.CASCADE, related_name='experimento_audios')
     row = models.ForeignKey(Row, on_delete=models.CASCADE, related_name='row_audios')
+    referencia = models.BooleanField(default=False)
     def generate_filename(self, filename):
         ext = filename.split('.')[-1]
         filename = f"{uuid.uuid4()}.{ext}"
