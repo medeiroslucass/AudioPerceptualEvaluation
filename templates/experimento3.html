@@ -6,4 +6,55 @@
         <p>{{experimento.description}}</p>
     </div>
 </div>
+
+<form class="form-step" action="{% url 'experimento3' %}" method="post">
+    {% csrf_token %}
+    {% for audios in grouped_audios %}
+    <div class="row" data-row-id="{{ forloop.counter0 }}">
+        {% for audio in audios %}
+        {% if audio.referencia %}
+        <div class="col-4 px-5">
+            <h1 class="">Referencia</h1>
+            <audio controls class="w-50">
+                <source src="{{ audio.archive.url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        {% else %}
+        <div class="col-4">
+            <h1 class="text-center">Audio {{ forloop.counter0 }}</h1>
+            <audio controls class="w-75 mx-auto d-block">
+                <source src="{{ audio.archive.url }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="d-flex justify-content-center mt-3">
+                <input type="checkbox" class="comparacao-checkbox" name="audio_checkbox" value="{{ audio.id }}"
+                       data-row-id="{{ forloop.parentloop.counter0 }}">
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+    <div class="mt-5 container text-center">
+        <button type="submit" class="btn btn-danger">Proximo</button>
+    </div>
+</form>
+
+
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('input[type="checkbox"][name="audio_checkbox"]').on('change', function () {
+            var checkedValue = $(this).prop('checked');
+            var rowId = $(this).data('row-id');
+            // Desmarcar outros checkboxes na mesma linha
+            $('input[type="checkbox"][name="audio_checkbox"][data-row-id="' + rowId + '"]').not(this).each(function () {
+                $(this).prop('checked', false);
+            });
+            $(this).prop("checked", checkedValue);
+        });
+    });
+</script>
 {% endblock %}
