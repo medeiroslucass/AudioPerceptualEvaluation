@@ -18,9 +18,9 @@
                 </audio>
             </div>
             <div class="col">
-                <label for="id_avaliacao_{{ audio.id }}">Avaliação:</label>
-                <input type="range" min="0" max="100" value="0" class="form-range" id="id_avaliacao_{{ audio.id }}"
-                       name="id_avaliacao_{{ audio.id }}">
+                <label for="id_audio_{{ audio.id }}">Avaliação:</label>
+                <input type="range" min="0" max="100" value="0" class="form-range" id="id_audio_{{ audio.id }}"
+                       name="id_audio_{{ audio.id }}">
                 <span id="valor_avaliacao_{{ audio.id }}"></span>
             </div>
             {% endfor %}

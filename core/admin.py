@@ -34,7 +34,6 @@ admin.site.register(Experimento, ExperimentoAdmin)
 class RowAdmin(admin.ModelAdmin):
     list_display = ('id', 'row')
     fields = ('row',)
-    inlines = [AudioInline]
 
 
 admin.site.register(Row, RowAdmin)

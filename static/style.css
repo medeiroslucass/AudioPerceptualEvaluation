@@ -14,6 +14,15 @@ body {
     font-size: 55px;
 }
 
+/*INPUT VERTICAL*/
+/*.input-vertical {*/
+/*    -webkit-transform: rotate(90deg);*/
+/*    -moz-transform: rotate(90deg);*/
+/*    -o-transform: rotate(90deg);*/
+/*    -ms-transform: rotate(90deg);*/
+/*    transform: rotate(90deg);*/
+/*}*/
+
 /*AUDIO*/
 audio {
     transition: transform 0.3s ease;
@@ -23,6 +32,7 @@ audio {
 audio:hover {
     transform: scale(1.2);
 }
+
 /*AUDIO*/
 
 
@@ -43,7 +53,7 @@ header, .navbar {
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: #fff; /* Define a cor branca */
+    color: #fff; /* Define a cor branca */
 }
 
 #nav-links a {

@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<form class="form-step container" action="{% url 'experimento3' %}" method="post">
+<form class="form-step container" action="{% url 'experimento4' %}" method="post">
     {% csrf_token %}
     {% for audios in grouped_audios %}
     <div class="row mb-5" data-row-id="{{ forloop.counter0 }}">
@@ -35,9 +35,9 @@
                     </audio>
 
                     <div class="d-flex justify-content-center mt-3 align-items-center">
-                        <label for="id_audio_{{ audio.id }}" class="me-2">Avaliação:</label>
+                        <label for="id_avaliacao_{{ audio.id }}" class="me-2">Avaliação:</label>
                         <input type="range" min="0" max="100" value="0" class="form-control-range input-vertical"
-                               id="id_audio_{{ audio.id }}" name="id_audio_{{ audio.id }}"
+                               id="id_avaliacao_{{ audio.id }}" name="id_avaliacao_{{ audio.id }}"
                                oninput="$('#valor_avaliacao_{{ audio.id }}').html($(this).val())">
                         <span id="valor_avaliacao_{{ audio.id }}" class="ms-2"></span>
                     </div>

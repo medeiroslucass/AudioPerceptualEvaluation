@@ -18,13 +18,13 @@
 
 
             <div class="col">
-                <select id="id_audio_category-select-{{ audio.id }}" class="form-select" name="category">
+                <select id="id_audio_category-select-{{ audio.id }}" class="form-select" name="id_audio_{{ audio.id }}" data-url="{% url 'get_categories' %}">
                     <option value="">Selecione uma categoria</option>
                 </select>
             </div>
         </div>
         <hr>
-        {% endfor %}]
+        {% endfor %}
         {% endfor %}
         <div class="mt-5 container">
             <button type="button" class="btn btn-danger" onclick="window.history.back()">Anterior</button>
@@ -36,7 +36,7 @@
 
 {% block script %}
 <script>
-    $('select[name="category"]').each(function(index, select) {
+    $('select[name^="id_audio_"]').each(function(index, select) {
     $.ajax({
         url: "{% url 'get_categories' %}",
         dataType: 'json',
@@ -44,7 +44,7 @@
             // limpa o select e adiciona as categorias retornadas
             var options = '<option value="">Selecione uma categoria</option>';
             $.each(data.categories, function(i, item) {
-                options += '<option value="' + item.id + '">' + item.name_category + '</option>';
+                options += '<option value="' + item.name_category + '">' + item.name_category + '</option>';
             });
             $(select).html(options);
         },
