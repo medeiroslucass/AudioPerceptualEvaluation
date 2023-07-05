@@ -49,15 +49,16 @@
 {% block script %}
 <script>
     $(document).ready(function () {
-        $('input[type="checkbox"][name="audio_checkbox"]').on('change', function () {
+        $('input[type="checkbox"][name^="audio_checkbox"]').on('change', function () {
             var checkedValue = $(this).prop('checked');
             var rowId = $(this).data('row-id');
             // Desmarcar outros checkboxes na mesma linha
-            $('input[type="checkbox"][name="audio_checkbox"][data-row-id="' + rowId + '"]').not(this).each(function () {
+            $('input[type="checkbox"][name^="audio_checkbox"][data-row-id="' + rowId + '"]').not(this).each(function () {
                 $(this).prop('checked', false);
             });
             $(this).prop("checked", checkedValue);
         });
     });
+
 </script>
 {% endblock %}
