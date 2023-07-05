@@ -5,24 +5,32 @@
         <h1 class="thin-font ">{{experimento.name}} </h1>
         <p>{{experimento.description}}</p>
     </div>
-    <form id="step-1-form" class="form-step" action="{% url 'experimento1' %}" method="POST"
-          enctype="multipart/form-data">
+    <form class="form-step container" action="{% url 'experimento1' %}" method="POST">
         {% csrf_token %}
-        <div class="row">
-            {% for audios in grouped_audios %}
+        {% for audios in grouped_audios %}
+
+        <div class="row mb-5">
             {% for audio in audios %}
-            <div class="col-3 mb-3">
-                <audio controls>
-                    <source src="{{ audio.archive.url }}" type="audio/wav">
-                    Your browser does not support the audio element.
-                </audio>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <audio controls>
+                            <source src="{{ audio.archive.url }}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+
+                        <div class="d-flex justify-content-center mt-3 align-items-center">
+                            <label for="id_audio_{{ audio.id }}" class="me-2">Avaliação:</label>
+                            <input type="range" min="0" max="100" value="0" class="form-control-range input-vertical"
+                                   id="id_audio_{{ audio.id }}" name="id_audio_{{ audio.id }}"
+                                   oninput="$('#valor_avaliacao_{{ audio.id }}').html($(this).val())">
+                            <span id="valor_avaliacao_{{ audio.id }}" class="ms-2"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-                <label for="id_audio_{{ audio.id }}">Avaliação:</label>
-                <input type="range" min="0" max="100" value="0" class="form-range" id="id_audio_{{ audio.id }}"
-                       name="id_audio_{{ audio.id }}">
-                <span id="valor_avaliacao_{{ audio.id }}"></span>
-            </div>
+
+
             {% endfor %}
             {% endfor %}
         </div>
